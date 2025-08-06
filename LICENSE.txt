@@ -1,0 +1,13 @@
+Copyright (c) 2025 9497-2959 Québec Inc. All rights reserved.
+
+This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/4.0/.
+
+Summary:
+- This is for a kaggle submission, please contact for commercial use.
+- Attribution: Credit 9497-2959 Québec Inc with an email to teagardan@outlook.com and link to the license.
+- Non-Commercial: No commercial use allowed.
+- No Additional Restrictions: No extra legal/technological limits beyond the license.
+- All other rights reserved by 9497-2959 Québec Inc.
+
+For commercial use, contact teagardan@outlook.com.
