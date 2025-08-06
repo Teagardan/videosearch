@@ -10,7 +10,7 @@ To test with sample data:
 python src/server.py
 
 
-Access this running on my machine and query using the JSONL files in data here: https://f60ad89bd8d2.ngrok-free.app
+Access this running on my machine and query using the JSONL files in data here: https://0ea2cfce1492.ngrok-free.app
 Download the sample video from the Kaggle dataset link above.
 
 Video Demo
@@ -53,5 +53,5 @@ OpenCV and FFmpeg: Industry-standard tools for reliable video processing and fra
 Code Repository
 GitHub: Teagardan/videosearch
 Live Demo
-[https://f60ad89bd8d2.ngrok-free.app]
+[https://0ea2cfce1492.ngrok-free.app]
 This project demonstrates a functional proof-of-concept, with all components integrated to deliver a seamless video search experience, backed by Gemma 3N’s multimodal capabilities.
