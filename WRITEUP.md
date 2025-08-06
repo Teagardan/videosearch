@@ -53,5 +53,5 @@ OpenCV and FFmpeg: Industry-standard tools for reliable video processing and fra
 Code Repository
 GitHub: Teagardan/videosearch
 Live Demo
-[https://teagardan-videosearch.onrender.com]
+[https://f60ad89bd8d2.ngrok-free.app]
 This project demonstrates a functional proof-of-concept, with all components integrated to deliver a seamless video search experience, backed by Gemma 3N’s multimodal capabilities.
