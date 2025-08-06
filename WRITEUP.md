@@ -10,12 +10,12 @@ To test with sample data:
 python src/server.py
 
 
-Access http://localhost:5006 and query using the JSONL files in data/.
-Download the sample video from the Kaggle dataset.
+Access http://localhost:5006 and query using the JSONL files in data here: https://f60ad89bd8d2.ngrok-free.app
+Download the sample video from the Kaggle dataset link above.
 
 Video Demo
 [https://www.youtube.com/watch?v=tlRAIjsrG_E]
-Screenshots
+
 
 Web Interface
 Frame Output
