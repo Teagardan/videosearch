@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Knowledge Base</title>
+    <style>
+        ul {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            padding: 0;
+        }
+        li {
+            list-style: none;
+            text-align: center;
+        }
+        .video-thumbnail {
+            width: 200px;
+            height: auto;
+            margin: 10px auto;
+            display: block;
+        }
+        .mode-links {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teagardan Video</h1>
+    <ul>
+        {% for video_dir in video_dirs %}
+            <li>
+                <img src="/videos/{{ video_dir }}/refined_screenshots/refined_change0_0001.jpg" alt="{{ video_dir }}" class="video-thumbnail" onerror="this.src='/static/placeholder.jpg';">
+                <p>{{ video_dir }}</p>
+                <div class="mode-links">
+                    <a href="/video/{{ video_dir }}?mode=ask">Ask me anything</a> |
+                    <a href="/video/{{ video_dir }}?mode=pause">Pause and Learn</a> |
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

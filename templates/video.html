@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video: {{ video_dir }}</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .page-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .navigation {
+            margin-bottom: 20px;
+        }
+        .navigation button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        .navigation button:hover {
+            background-color: #45a049;
+        }
+        .document-visualization {
+            margin-bottom: 20px;
+        }
+        .document-visualization video {
+            width: 100%;
+            height: auto;
+        }
+        .chat-log, .frame-chat-log, .image-chat-log {
+            overflow-y: scroll;
+            max-height: 200px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .message {
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .message.user {
+            background-color: #e0e0e0;
+        }
+        .message.bot {
+            background-color: #d0e0ff;
+        }
+        .message.system {
+            background-color: #f0f0f0;
+            color: #555;
+        }
+        .chat-form, .frame-chat-form, .image-chat-form {
+            display: flex;
+            margin-top: 10px;
+        }
+        .chat-form input, .frame-chat-form input, .image-chat-form input {
+            flex-grow: 1;
+            padding: 5px;
+        }
+        .chat-form button, .frame-chat-form button, .image-chat-form button {
+            background-color: blue;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .bottom-section {
+            margin-top: 20px;
+        }
+        .relevant-frame-item {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .relevant-frame-item p.timestamp {
+            margin: 0 10px 0 0;
+        }
+        .relevant-frame-item img {
+            width: 100px;
+            height: auto;
+            margin-left: 10px;
+        }
+        .relevant-frame-item .content {
+            flex-basis: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body data-video-dir="{{ video_dir }}" data-mode="{{ mode }}">
+    <div class="page-container">
+        <div class="navigation">
+            <a href="/"><button>Home</button></a>
+        </div>
+        <div class="document-visualization">
+            <h2>Teagardan Video</h2>
+            <video id="videoPlayer" controls>
+                <source src="/videos/{{ video_dir }}/{{ video_file }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        {% if mode == 'ask' %}
+        <div class="ask-me-anything">
+            <h2>Ask me anything</h2>
+            <div class="chat-log">
+                <div class="message system">Ask me anything about the video.</div>
+            </div>
+            <form class="chat-form">
+                <input type="text" name="query" placeholder="Ask a question about the video">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <div class="bottom-section">
+            <h2>Answer</h2>
+            <p id="answer-text"></p>
+            <h2>Relevant Frames</h2>
+            <ul id="relevant-frames"></ul>
+        </div>
+        {% elif mode == 'pause' %}
+        <div class="pause-and-learn">
+            <h2>Pause and learn</h2>
+            <div class="frame-chat-log">
+                <div class="message system">Pause the video to learn about the frame.</div>
+            </div>
+            <form class="frame-chat-form">
+                <input type="text" name="frame_query" placeholder="Ask a question about this frame">
+                <button type="submit">Ask</button>
+            </form>
+        </div>
+        {% elif mode == 'scene' %}
+        <div class="whats-on-this-scene">
+            <h2>What's on this scene?</h2>
+            <div class="image-chat-log">
+                <div class="message system">Pause the video to see what's on the scene.</div>
+            </div>
+            <form class="image-chat-form">
+                <input type="text" name="image_query" placeholder="Ask a question about this image">
+                <button type="submit">Ask</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    <script>
+        let currentFrameTimestamp = null;
+        const videoPlayer = document.getElementById('videoPlayer');
+        function setVideoTime(time) {
+            videoPlayer.currentTime = time;
+        }
+        window.addEventListener('load', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const timestamp = parseFloat(urlParams.get('t'));
+            if (!isNaN(timestamp)) {
+                setVideoTime(timestamp);
+            }
+        });
+        videoPlayer.removeEventListener('pause', handlePause);
+        function handlePause() {
+            const currentTime = videoPlayer.currentTime;
+            console.log('Video paused at timestamp:', currentTime);
+            currentFrameTimestamp = currentTime;
+            const mode = document.body.getAttribute('data-mode');
+            if (mode === 'pause') {
+                fetchFrameData(currentTime);
+            } else if (mode === 'scene') {
+                fetchImageDescription(currentTime);
+            }
+        }
+        videoPlayer.addEventListener('pause', handlePause);
+        const chatForm = document.querySelector('.chat-form');
+        if (chatForm) {
+            chatForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const query = event.target.query.value;
+                if (!query) return;
+                const userMessage = document.createElement('div');
+                userMessage.className = 'message user';
+                userMessage.textContent = query;
+                document.querySelector('.chat-log').appendChild(userMessage);
+                try {
+                    const response = await fetch(`/api/chat/{{ video_dir }}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ query: query }),
+                    });
+                    if (!response.ok) {
+                        throw new Error(`Chat API responded with status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'message bot';
+                    botMessage.textContent = data.brief_response;
+                    document.querySelector('.chat-log').appendChild(botMessage);
+                    document.querySelector('.chat-log').scrollTop = document.querySelector('.chat-log').scrollHeight;
+                    document.getElementById('answer-text').textContent = data.detailed_response;
+                    const relevantFrames = document.getElementById('relevant-frames');
+                    relevantFrames.innerHTML = '';
+                    if (data.frames && data.frames.length > 0) {
+                        data.frames.forEach(frame => {
+                            const videoDir = document.body.getAttribute('data-video-dir');
+                            const screenshot = frame['screenshot'].replace('refined_screenshots/', '');
+                            const imgSrc = `/videos/${videoDir}/refined_screenshots/${screenshot}`;
+                            console.log('Constructed image URL:', imgSrc);
+                            const li = document.createElement('li');
+                            li.className = 'relevant-frame-item';
+                            li.innerHTML = `
+                                <p class="timestamp"><strong>Timestamp:</strong> ${frame['formatted_timestamp']}</p>
+                                <img src="${imgSrc}" alt="Thumbnail at ${frame['timestamp']}s" onerror="this.src='/static/placeholder.jpg'; console.error('Image failed to load:', '${imgSrc}');">
+                                <button onclick="setVideoTime(${frame['timestamp']})">Play from here</button>
+                                <p class="content"><strong>Content:</strong> ${frame['combined_text']}</p>
+                            `;
+                            relevantFrames.appendChild(li);
+                        });
+                    } else {
+                        relevantFrames.innerHTML = '<li>No relevant frames found.</li>';
+                    }
+                } catch (error) {
+                    console.error('Error in chat submission:', error);
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'message bot';
+                    botMessage.textContent = `Error: ${error.message}`;
+                    document.querySelector('.chat-log').appendChild(botMessage);
+                }
+                event.target.query.value = '';
+            });
+        }
+        const frameChatForm = document.querySelector('.frame-chat-form');
+        if (frameChatForm) {
+            frameChatForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const query = event.target.frame_query.value;
+                if (!query || currentFrameTimestamp === null) return;
+                console.log('Submitting frame query:', query, 'for timestamp:', currentFrameTimestamp);
+                const frameChatLog = document.querySelector('.frame-chat-log');
+                frameChatLog.innerHTML += `<div class="message user">${query}</div>`;
+                try {
+                    const response = await fetch(`/api/frame_data/{{ video_dir }}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ timestamp: currentFrameTimestamp, query: query }),
+                    });
+                    if (!response.ok) {
+                        throw new Error(`Frame query API responded with status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    frameChatLog.innerHTML += `<div class="message bot">${data.response}</div>`;
+                    frameChatLog.scrollTop = frameChatLog.scrollHeight;
+                } catch (error) {
+                    console.error('Error in frame query submission:', error);
+                    frameChatLog.innerHTML += `<div class="message bot">Error: ${error.message}</div>`;
+                }
+                event.target.frame_query.value = '';
+            });
+        }
+        const imageChatForm = document.querySelector('.image-chat-form');
+        if (imageChatForm) {
+            imageChatForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const query = event.target.image_query.value;
+                if (!query || currentFrameTimestamp === null) return;
+                console.log('Submitting image query:', query, 'for timestamp:', currentFrameTimestamp);
+                const imageChatLog = document.querySelector('.image-chat-log');
+                imageChatLog.innerHTML += `<div class="message user">${query}</div>`;
+                try {
+                    const response = await fetch(`/api/image_query/{{ video_dir }}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ timestamp: currentFrameTimestamp, query: query }),
+                    });
+                    if (!response.ok) {
+                        throw new Error(`Image query API responded with status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    imageChatLog.innerHTML += `<div class="message bot">${data.response}</div>`;
+                    imageChatLog.scrollTop = imageChatLog.scrollHeight;
+                } catch (error) {
+                    console.error('Error in image query submission:', error);
+                    imageChatLog.innerHTML += `<div class="message bot">Error: ${error.message}</div>`;
+                }
+                event.target.image_query.value = '';
+            });
+        }
+        async function fetchFrameData(timestamp) {
+            try {
+                console.log('Fetching frame data for timestamp:', timestamp);
+                const response = await fetch(`/api/frame_data/{{ video_dir }}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ timestamp: timestamp }),
+                });
+                if (!response.ok) {
+                    throw new Error(`Frame data API responded with status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log('Received frame data:', data);
+                const frameChatLog = document.querySelector('.frame-chat-log');
+                if (frameChatLog) {
+                    frameChatLog.innerHTML = '';
+                    if (data.error) {
+                        frameChatLog.innerHTML = `<div class="message system">${data.error}</div>`;
+                    } else {
+                        frameChatLog.innerHTML = `
+                            <div class="message system">${data.response}</div>
+                            <div class="message system">Ask any questions about this frame.</div>
+                        `;
+                    }
+                    frameChatLog.scrollTop = frameChatLog.scrollHeight;
+                }
+            } catch (error) {
+                console.error('Error in fetchFrameData:', error);
+                const frameChatLog = document.querySelector('.frame-chat-log');
+                if (frameChatLog) {
+                    frameChatLog.innerHTML = `<div class="message system">Error fetching frame data: ${error.message}. Please try again.</div>`;
+                }
+            }
+        }
+        async function fetchImageDescription(timestamp) {
+            try {
+                console.log('Fetching image description for timestamp:', timestamp);
+                const response = await fetch(`/api/image_description/{{ video_dir }}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ timestamp: timestamp }),
+                });
+                if (!response.ok) {
+                    throw new Error(`Image description API responded with status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log('Received image description:', data);
+                const imageChatLog = document.querySelector('.image-chat-log');
+                if (imageChatLog) {
+                    imageChatLog.innerHTML = '';
+                    if (data.error) {
+                        imageChatLog.innerHTML = `<div class="message system">${data.error}</div>`;
+                    } else {
+                        imageChatLog.innerHTML = `
+                            <div class="message system">${data.description}</div>
+                            <div class="message system">Ask any questions about this image.</div>
+                        `;
+                    }
+                    imageChatLog.scrollTop = imageChatLog.scrollHeight;
+                }
+            } catch (error) {
+                console.error('Error in fetchImageDescription:', error);
+                const imageChatLog = document.querySelector('.image-chat-log');
+                if (imageChatLog) {
+                    imageChatLog.innerHTML = `<div class="message system">Error fetching image description: ${error.message}. Please try again.</div>`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

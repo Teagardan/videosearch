@@ -1,6 +1,4 @@
-## Screenshots
-![Web Interface](https://raw.githubusercontent.com/Teagardan/videosearch/main/screenshots/Teagardan-kaggle_1.png)
-![Frame Output](https://raw.githubusercontent.com/Teagardan/videosearch/main/screenshots/Teagardan-kaggle_2.png)# Teagardan Video Deepsearch
+# Teagardan Video Deepsearch
 
 Teagardan Video Deepsearch revolutionizes video content organization and retrieval by combining audio transcription, visual analysis, and scene detection. Powered by the Gemma 3N model via Ollama, it transcribes audio using Whisper, analyzes visuals for detailed descriptions, detects scene changes with OpenCV, and stores results in JSONL files for efficient querying. Ideal for educational tools, content summarization, and interactive media exploration, this project offers a seamless way to search and navigate video content.
 
@@ -36,9 +34,9 @@ python src/server.py
 Demo
 Watch our 3-minute demo showcasing video search capabilities: [YouTube Link]
 
-Screenshots
-<img src="screenshots/interface.png" alt="Web Interface">
-<img src="screenshots/frame_output.png" alt="Frame Output">
+## Screenshots
+![Web Interface](https://raw.githubusercontent.com/Teagardan/videosearch/main/screenshots/Teagardan-kaggle_1.png)
+![Frame Output](https://raw.githubusercontent.com/Teagardan/videosearch/main/screenshots/Teagardan-kaggle_2.png)
 
 
 License
