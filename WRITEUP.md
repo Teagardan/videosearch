@@ -14,7 +14,7 @@ Access http://localhost:5006 and query using the JSONL files in data/.
 Download the sample video from the Kaggle dataset.
 
 Video Demo
-[https://youtu.be/5_zyUV6Z3Xw]
+[https://www.youtube.com/watch?v=tlRAIjsrG_E]
 Screenshots
 
 Web Interface

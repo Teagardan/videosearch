@@ -32,7 +32,7 @@ Choose Casual (1) or Pro (2) mode.
 python src/server.py
 
 Demo
-Watch our 3-minute demo showcasing video search capabilities: [YouTube Link]
+Watch our 3-minute demo showcasing video search capabilities: [(https://www.youtube.com/watch?v=tlRAIjsrG_E)]
 In action: https://f60ad89bd8d2.ngrok-free.app
 
 ## Screenshots
