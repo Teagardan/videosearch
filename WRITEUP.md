@@ -4,7 +4,7 @@ Sample Data
 data/sample_video_text.jsonl: Audio and visual descriptions from a sample video.
 data/sample_frame_text.jsonl: Frame-specific descriptions.
 data/frames/sample_frame_0001.jpg: Sample extracted frame.
-Sample video: [https://www.kaggle.com/datasets/teagardan/videosearch-sample-data]
+Sample video: [https://www.kaggle.com/datasets/teagarda/a-video-inside-an-automobile]
 
 To test with sample data:
 python src/server.py
