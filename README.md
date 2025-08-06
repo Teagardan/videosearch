@@ -40,7 +40,7 @@ Screenshots
 
 
 License
-Licensed under the Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0). See LICENSE.txt. For commercial use, contact teagardaninc@outlook.com.
+Licensed under the Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0). See LICENSE.txt. For commercial use, contact teagardan@outlook.com.
 
 Contributing
 Non-commercial contributions are welcome. Submit pull requests for bug fixes or enhancements. See CONTRIBUTING.md.
