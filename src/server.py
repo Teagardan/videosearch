@@ -7,10 +7,10 @@ from rank_bm25 import BM25Okapi
 from bisect import bisect_left
 import ollama
 import logging
-os.environ["OLLAMA_HOST"] = "https://teagardan.ngrok.app"
+os.environ["OLLAMA_HOST"] = "https://0ea2cfce1492.ngrok-free.app"
 
 app = Flask(__name__, template_folder='templates')
-app.config['BASE_OUTPUT_DIR'] = os.path.expanduser('/Users/siliconweaver/Documents/Teagardan/VIDEO_GEMMA3N/output')
+app.config['BASE_OUTPUT_DIR'] = os.path.expanduser('PATH TO DIR')
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

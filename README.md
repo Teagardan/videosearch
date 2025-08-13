@@ -33,7 +33,7 @@ python src/server.py
 
 Demo
 Watch our 3-minute demo showcasing video search capabilities: [(https://www.youtube.com/watch?v=tlRAIjsrG_E)]
-In action: https://teagardan.ngrok.app
+In action: https://0ea2cfce1492.ngrok-free.app
 
 ## Screenshots
 ![Web Interface](https://raw.githubusercontent.com/Teagardan/videosearch/main/screenshots/Teagardan-kaggle_1.png)
