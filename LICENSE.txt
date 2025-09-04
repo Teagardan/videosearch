@@ -1,13 +1,16 @@
-Copyright (c) 2025 9497-2957 Québec Inc. All rights reserved.
+Copyright (c) 2025 9497-2957 Québec Inc.
 
-This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
-To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/4.0/.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-Summary:
-- This is for a kaggle submission, please contact for commercial use.
-- Attribution: Credit 9497-2957 Québec Inc with an email to teagardan@outlook.com and link to the license.
-- Non-Commercial: No commercial use allowed.
-- No Additional Restrictions: No extra legal/technological limits beyond the license.
-- All other rights reserved by 9497-2957 Québec Inc.
+    http://www.apache.org/licenses/LICENSE-2.0
 
-For commercial use, contact teagardan@outlook.com.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Attribution: Please credit 9497-2957 Québec Inc. when using or redistributing this work.
+For inquiries, contact teagardan@outlook.com.

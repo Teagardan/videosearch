@@ -41,7 +41,7 @@ In action: https://0ea2cfce1492.ngrok-free.app
 
 
 License
-Licensed under the Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0). See LICENSE.txt. For commercial use, contact teagardan@outlook.com.
-
+Licensed under the Apache License, Version 2.0 (the "License"). See LICENSE.txt for details.
+Attribution: Please credit 9497-2957 Québec Inc. when using or redistributing this work. For inquiries, contact teagardan@outlook.com.
 Contributing
-Non-commercial contributions are welcome. Submit pull requests for bug fixes or enhancements. See CONTRIBUTING.md.
+Contributions are welcome! Submit pull requests for bug fixes or enhancements. See CONTRIBUTING.md for guidelines.
