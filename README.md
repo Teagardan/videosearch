@@ -40,8 +40,12 @@ In action: https://0ea2cfce1492.ngrok-free.app
 ![Frame Output](https://raw.githubusercontent.com/Teagardan/videosearch/main/screenshots/Teagardan-kaggle_2.png)
 
 
-License
-Licensed under the Apache License, Version 2.0 (the "License"). See LICENSE.txt for details.
+## License
+
+This project, including all code and the technical writeup, is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0). See [LICENSE.txt](LICENSE.txt) for details.
+
 Attribution: Please credit 9497-2957 Québec Inc. when using or redistributing this work. For inquiries, contact teagardan@outlook.com.
-Contributing
-Contributions are welcome! Submit pull requests for bug fixes or enhancements. See CONTRIBUTING.md for guidelines.
+
+## Contributing
+
+Contributions are welcome! Submit pull requests for bug fixes or enhancements. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
